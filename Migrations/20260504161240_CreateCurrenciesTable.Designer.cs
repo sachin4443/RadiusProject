@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Radius.API.Data;
 
@@ -11,9 +12,11 @@ using Radius.API.Data;
 namespace Radius.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260504161240_CreateCurrenciesTable")]
+    partial class CreateCurrenciesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +53,6 @@ namespace Radius.API.Migrations
 
                     b.Property<DateTime?>("LastUpdate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("LevelID")
-                        .HasColumnType("int");
 
                     b.Property<int>("MenuLevel")
                         .HasColumnType("int");
@@ -99,62 +99,6 @@ namespace Radius.API.Migrations
                     b.ToTable("AdminUsers");
                 });
 
-            modelBuilder.Entity("Radius.API.Models.Country", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CountryCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("CountryName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("CurrencyCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("Radius.API.Models.CountryTimeZone", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CountryCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CountryName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TimeZoneId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TimeZoneName")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("UtcOffset")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CountryTimeZones");
-                });
-
             modelBuilder.Entity("Radius.API.Models.CpanlAdminSite", b =>
                 {
                     b.Property<int>("Level1CompanyID")
@@ -167,9 +111,6 @@ namespace Radius.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyID")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
@@ -201,9 +142,6 @@ namespace Radius.API.Migrations
 
                     b.Property<DateTime?>("LastUpdate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("LevelID")
-                        .HasColumnType("int");
 
                     b.Property<string>("MobileNumber")
                         .HasColumnType("nvarchar(max)");
@@ -244,9 +182,6 @@ namespace Radius.API.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CurrencyCode")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CurrencyName")
                         .HasColumnType("nvarchar(max)");

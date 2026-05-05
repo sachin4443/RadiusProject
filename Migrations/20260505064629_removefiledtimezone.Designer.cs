@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Radius.API.Data;
 
@@ -11,9 +12,11 @@ using Radius.API.Data;
 namespace Radius.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260505064629_removefiledtimezone")]
+    partial class removefiledtimezone
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,9 +172,6 @@ namespace Radius.API.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CompanyID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
@@ -201,9 +201,6 @@ namespace Radius.API.Migrations
 
                     b.Property<DateTime?>("LastUpdate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("LevelID")
-                        .HasColumnType("int");
 
                     b.Property<string>("MobileNumber")
                         .HasColumnType("nvarchar(max)");

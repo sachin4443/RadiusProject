@@ -6,6 +6,7 @@ public class AdminMenu
 {
     [Key]
     public int MenuID { get; set; }
+    public int LevelID { get; set; }
     public string? MenuName { get; set; }
     public string? Controller { get; set; }
     public string? Action { get; set; }

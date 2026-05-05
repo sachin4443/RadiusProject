@@ -34,6 +34,7 @@ public class MenuController : ControllerBase
                 parent.Controller,
                 parent.Action,
                 parent.Section,
+                parent.LevelID,
 
                 Children = menus
                     .Where(c => c.ParentID == parent.MenuID)
@@ -44,7 +45,8 @@ public class MenuController : ControllerBase
                         c.Class,
                         c.Controller,
                         c.Action,
-                        c.Section
+                        c.Section,
+                        c.LevelID
                     })
                     .OrderBy(c => c.MenuID)
             });
@@ -94,6 +96,7 @@ public class MenuController : ControllerBase
         existing.Class = menu.Class;
         existing.Position = menu.Position;
         existing.MenuLevel = menu.MenuLevel;
+        existing.LevelID = menu.LevelID;
 
         await _context.SaveChangesAsync();
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Radius.API.Data;
 
@@ -11,9 +12,11 @@ using Radius.API.Data;
 namespace Radius.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260504183821_AddDropdownFieldsInCpanlAdminSite")]
+    partial class AddDropdownFieldsInCpanlAdminSite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +53,6 @@ namespace Radius.API.Migrations
 
                     b.Property<DateTime?>("LastUpdate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("LevelID")
-                        .HasColumnType("int");
 
                     b.Property<int>("MenuLevel")
                         .HasColumnType("int");
@@ -134,13 +134,19 @@ namespace Radius.API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CountryCode")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("CountryName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("TimeZoneId")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("TimeZoneName")
                         .HasMaxLength(150)
@@ -169,16 +175,19 @@ namespace Radius.API.Migrations
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CompanyID")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CountryCode")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Currency")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CurrencyCode")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
@@ -202,9 +211,6 @@ namespace Radius.API.Migrations
                     b.Property<DateTime?>("LastUpdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LevelID")
-                        .HasColumnType("int");
-
                     b.Property<string>("MobileNumber")
                         .HasColumnType("nvarchar(max)");
 
@@ -224,6 +230,9 @@ namespace Radius.API.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TimeZone")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TimeZoneId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Username")

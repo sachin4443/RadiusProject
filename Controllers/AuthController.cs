@@ -18,12 +18,33 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(AdminUser login)
     {
-        var user = _context.AdminUsers
+        // 🔹 Check in AdminUsers
+        var adminUser = _context.AdminUsers
             .FirstOrDefault(x => x.Username == login.Username && x.Password == login.Password);
 
-        if (user == null)
-            return Unauthorized("Invalid username or password");
+        if (adminUser != null)
+        {
+            return Ok(new
+            {
+                type = "AdminUser",
+                data = adminUser
+            });
+        }
 
-        return Ok(user);
+        // 🔹 Check in CpanlAdminSites (Email + Password)
+        var siteUser = _context.CpanlAdminSites
+            .FirstOrDefault(x => x.Email == login.Username && x.Password == login.Password);
+
+        if (siteUser != null)
+        {
+            return Ok(new
+            {
+                type = "SiteUser",
+                data = siteUser
+            });
+        }
+
+        // ❌ If both fail
+        return Unauthorized("Invalid username/email or password");
     }
 }
