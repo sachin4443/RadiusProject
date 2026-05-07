@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Radius.API.Data;
 
@@ -11,9 +12,11 @@ using Radius.API.Data;
 namespace Radius.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260506105842_AddParentCompanyIDInSites")]
+    partial class AddParentCompanyIDInSites
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -169,9 +172,6 @@ namespace Radius.API.Migrations
                     b.Property<DateTime>("AddDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("BusinessType")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
@@ -179,9 +179,6 @@ namespace Radius.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("CompanyTagline")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
@@ -199,9 +196,6 @@ namespace Radius.API.Migrations
                     b.Property<bool>("IsDefaultSite")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsEnabled")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("IsLicenseDays")
                         .HasColumnType("bit");
 
@@ -214,14 +208,8 @@ namespace Radius.API.Migrations
                     b.Property<DateTime?>("LastUpdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Latitude")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("LevelID")
                         .HasColumnType("int");
-
-                    b.Property<string>("Longitude")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MobileNumber")
                         .HasColumnType("nvarchar(max)");
@@ -232,22 +220,7 @@ namespace Radius.API.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SiteAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SiteDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SiteDomain")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SiteEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SiteMobileNo")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SiteName")
@@ -261,9 +234,6 @@ namespace Radius.API.Migrations
 
                     b.Property<string>("TimeZone")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("UseOwnDomain")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(max)");

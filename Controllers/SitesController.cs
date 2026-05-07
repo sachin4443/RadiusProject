@@ -15,6 +15,17 @@ public class SitesController : ControllerBase
     {
         _context = context;
     }
+    [HttpGet("manage/{parentCompanyId}")]
+    public async Task<IActionResult> GetSitesByParent(int parentCompanyId)
+    {
+        var data = await _context.CpanlAdminSites
+            .Where(x => x.ParentCompanyID == parentCompanyId)
+            .OrderByDescending(x => x.Level1CompanyID)
+            .ToListAsync();
+
+        return Ok(data);
+    }
+
 
     // ✅ GET ALL
     [HttpGet("manage")]
@@ -27,14 +38,26 @@ public class SitesController : ControllerBase
         return Ok(data);
     }
 
-    // ✅ REGISTER
     [HttpPost("register")]
     public async Task<IActionResult> Register(CpanlAdminSite model)
     {
         model.AddDate = DateTime.Now;
 
+        // agar frontend se ParentCompanyID nahi aa rahi
+        if (model.ParentCompanyID == 0)
+        {
+            model.ParentCompanyID = 1;
+        }
+
         _context.CpanlAdminSites.Add(model);
         await _context.SaveChangesAsync();
+
+        // site create hone ke baad uska LevelID set kar do
+        if (model.LevelID == 0)
+        {
+            model.LevelID = model.Level1CompanyID;
+            await _context.SaveChangesAsync();
+        }
 
         return Ok(model);
     }

@@ -23,11 +23,15 @@ public class AuthController : ControllerBase
             return BadRequest("Email and Password required");
         }
 
-        var email = login.Email.ToLower();
+        var email = login.Email.Trim().ToLower();
 
-        // 🔹 Admin Login (Email based)
+        // 🔹 Admin Login
         var adminUser = _context.AdminUsers
-            .FirstOrDefault(x => x.Email.ToLower() == email && x.Password == login.Password);
+            .FirstOrDefault(x =>
+                x.Email != null &&
+                x.Email.ToLower() == email &&
+                x.Password == login.Password
+            );
 
         if (adminUser != null)
         {
@@ -35,14 +39,19 @@ public class AuthController : ControllerBase
             {
                 type = "AdminUser",
                 levelId = 1,
+                parentCompanyId = 1,
                 companyName = "Admin",
                 data = adminUser
             });
         }
 
-        // 🔹 Site User Login (Email based)
+        // 🔹 Site User Login
         var siteUser = _context.CpanlAdminSites
-            .FirstOrDefault(x => x.Email.ToLower() == email && x.Password == login.Password);
+            .FirstOrDefault(x =>
+                x.Email != null &&
+                x.Email.ToLower() == email &&
+                x.Password == login.Password
+            );
 
         if (siteUser != null)
         {
@@ -50,6 +59,7 @@ public class AuthController : ControllerBase
             {
                 type = "SiteUser",
                 levelId = siteUser.LevelID,
+                parentCompanyId = siteUser.ParentCompanyID,
                 companyName = siteUser.CompanyName,
                 data = siteUser
             });
@@ -66,7 +76,6 @@ public class AuthController : ControllerBase
             .OrderBy(m => m.Position)
             .ToList();
 
-        // 🧠 Parent-child structure
         var parentMenus = menus
             .Where(m => m.ParentID == 0)
             .Select(p => new
@@ -75,17 +84,24 @@ public class AuthController : ControllerBase
                 menuName = p.MenuName,
                 controller = p.Controller,
                 action = p.Action,
+                menuStr = p.MenuStr,
+                section = p.Section,
                 @class = p.Class,
+
                 children = menus
                     .Where(c => c.ParentID == p.MenuID)
+                    .OrderBy(c => c.Position)
                     .Select(c => new
                     {
                         menuID = c.MenuID,
                         menuName = c.MenuName,
                         controller = c.Controller,
                         action = c.Action,
+                        menuStr = c.MenuStr,
+                        section = c.Section,
                         @class = c.Class
-                    }).ToList()
+                    })
+                    .ToList()
             })
             .ToList();
 

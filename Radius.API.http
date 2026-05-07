@@ -1,4 +1,12 @@
-@Radius.API_HostAddress = http://localhost:5258
+@Radius.API_HostAddress = http://
+
+
+
+
+
+
+
+host:5258
 
 GET {{Radius.API_HostAddress}}/weatherforecast/
 Accept: application/json
