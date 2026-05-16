@@ -18,11 +18,19 @@ namespace Radius.API.Controllers
         [HttpGet("dashboard/{parentCompanyId}")]
         public async Task<IActionResult> Dashboard(int parentCompanyId)
         {
+            // ✅ Sirf 3rd layer Sites count hongi
             var totalSites = await _context.CpanlAdminSites
-                .CountAsync(x => x.ParentCompanyID == parentCompanyId);
+                .CountAsync(x =>
+                    x.ParentCompanyID == parentCompanyId &&
+                    x.LevelID == 3
+                );
 
-            // ✅ Abhi IsActive field nahi hai, isliye activeSites same rakha hai
-            var activeSites = totalSites;
+            var activeSites = await _context.CpanlAdminSites
+                .CountAsync(x =>
+                    x.ParentCompanyID == parentCompanyId &&
+                    x.LevelID == 3 &&
+                    x.IsEnabled == true
+                );
 
             return Ok(new
             {
@@ -43,8 +51,12 @@ namespace Radius.API.Controllers
         [HttpGet("sites/{parentCompanyId}")]
         public async Task<IActionResult> Sites(int parentCompanyId)
         {
+            // ✅ Sirf login client ke under wali sites aayengi
             var data = await _context.CpanlAdminSites
-                .Where(x => x.ParentCompanyID == parentCompanyId)
+                .Where(x =>
+                    x.ParentCompanyID == parentCompanyId &&
+                    x.LevelID == 3
+                )
                 .OrderByDescending(x => x.Level1CompanyID)
                 .ToListAsync();
 

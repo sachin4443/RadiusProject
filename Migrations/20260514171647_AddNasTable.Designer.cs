@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Radius.API.Data;
 
@@ -11,9 +12,11 @@ using Radius.API.Data;
 namespace Radius.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260514171647_AddNasTable")]
+    partial class AddNasTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,86 +296,6 @@ namespace Radius.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Currencies");
-                });
-
-            modelBuilder.Entity("Radius.API.Models.IPv4Pool", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AddDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CompanyID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Free")
-                        .HasColumnType("int");
-
-                    b.Property<string>("FromIP")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PoolName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ToIP")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Total")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Used")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IPv4Pools");
-                });
-
-            modelBuilder.Entity("Radius.API.Models.IPv6Pool", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AddDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CompanyID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("Free")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Network")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PoolName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PrefixLength")
-                        .HasColumnType("int");
-
-                    b.Property<long>("Total")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("Used")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("IPv6Pools");
                 });
 
             modelBuilder.Entity("Radius.API.Models.Nas", b =>

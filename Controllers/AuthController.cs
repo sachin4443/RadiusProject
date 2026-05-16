@@ -39,13 +39,15 @@ public class AuthController : ControllerBase
             {
                 type = "AdminUser",
                 levelId = 1,
-                parentCompanyId = 1,
+                parentCompanyId = 0,
+                currentCompanyId = 1,
                 companyName = "Admin",
+                fullName = "Admin",
                 data = adminUser
             });
         }
 
-        // 🔹 Site User Login
+        // 🔹 Client / Site User Login
         var siteUser = _context.CpanlAdminSites
             .FirstOrDefault(x =>
                 x.Email != null &&
@@ -60,7 +62,12 @@ public class AuthController : ControllerBase
                 type = "SiteUser",
                 levelId = siteUser.LevelID,
                 parentCompanyId = siteUser.ParentCompanyID,
+
+                // ✅ Important: logged-in user's own ID
+                currentCompanyId = siteUser.Level1CompanyID,
+
                 companyName = siteUser.CompanyName,
+                fullName = siteUser.FullName,
                 data = siteUser
             });
         }

@@ -15,49 +15,52 @@ public class SitesController : ControllerBase
     {
         _context = context;
     }
+
+    // ✅ CLIENT WISE SITES
     [HttpGet("manage/{parentCompanyId}")]
     public async Task<IActionResult> GetSitesByParent(int parentCompanyId)
     {
         var data = await _context.CpanlAdminSites
-            .Where(x => x.ParentCompanyID == parentCompanyId)
+            .Where(x =>
+                x.ParentCompanyID == parentCompanyId &&
+                x.LevelID == 3
+            )
             .OrderByDescending(x => x.Level1CompanyID)
             .ToListAsync();
 
         return Ok(data);
     }
 
-
-    // ✅ GET ALL
+    // ✅ ADMIN: GET ALL SITES ONLY
     [HttpGet("manage")]
     public async Task<IActionResult> GetSites()
     {
         var data = await _context.CpanlAdminSites
+            .Where(x => x.LevelID == 3)
             .OrderByDescending(x => x.Level1CompanyID)
             .ToListAsync();
 
         return Ok(data);
     }
 
+    // ✅ REGISTER SITE
     [HttpPost("register")]
     public async Task<IActionResult> Register(CpanlAdminSite model)
     {
-        model.AddDate = DateTime.Now;
+        // ✅ Site hamesha 3rd layer hogi
+        model.LevelID = 3;
 
-        // agar frontend se ParentCompanyID nahi aa rahi
+        // ✅ ParentCompanyID frontend se currentCompanyId aani chahiye
         if (model.ParentCompanyID == 0)
         {
             model.ParentCompanyID = 1;
         }
 
+        model.AddDate = DateTime.Now;
+        model.LastUpdate = DateTime.Now;
+
         _context.CpanlAdminSites.Add(model);
         await _context.SaveChangesAsync();
-
-        // site create hone ke baad uska LevelID set kar do
-        if (model.LevelID == 0)
-        {
-            model.LevelID = model.Level1CompanyID;
-            await _context.SaveChangesAsync();
-        }
 
         return Ok(model);
     }
