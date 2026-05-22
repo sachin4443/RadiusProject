@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Radius.API.Data;
 
@@ -11,9 +12,11 @@ using Radius.API.Data;
 namespace Radius.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260520113311_AddRoleIdInSite")]
+    partial class AddRoleIdInSite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -416,67 +419,6 @@ namespace Radius.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Nas");
-                });
-
-            modelBuilder.Entity("Radius.API.Models.Package", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("AddDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("CompanyID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DataLimit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DownSpeed")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ExpirationLimit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PackageDescription")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PackageGroup")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PackageName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<bool>("PublishToWeb")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("ShowInUcp")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("TaxIncluded")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpSpeed")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UptimeLimit")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Packages");
                 });
 
             modelBuilder.Entity("Radius.API.Models.Right", b =>

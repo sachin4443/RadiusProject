@@ -57,4 +57,6 @@ public class CpanlAdminSite
 
     public DateTime AddDate { get; set; }
     public DateTime? LastUpdate { get; set; }
+
+    public int RoleId { get; set; }
 }

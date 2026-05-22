@@ -25,4 +25,12 @@ public class AppDbContext : DbContext
     public DbSet<IPv4Pool> IPv4Pools { get; set; }
     public DbSet<IPv6Pool> IPv6Pools { get; set; }
 
+    public DbSet<Role> Roles { get; set; }
+
+    public DbSet<Right> Rights { get; set; }
+
+    public DbSet<RoleRight> RoleRights { get; set; }
+
+    public DbSet<Package> Packages { get; set; }
+
 }

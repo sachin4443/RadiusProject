@@ -18,19 +18,20 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login(AdminUser login)
     {
-        if (string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
+        if (string.IsNullOrWhiteSpace(login.Email) || string.IsNullOrWhiteSpace(login.Password))
         {
             return BadRequest("Email and Password required");
         }
 
         var email = login.Email.Trim().ToLower();
+        var password = login.Password.Trim();
 
-        // 🔹 Admin Login
         var adminUser = _context.AdminUsers
             .FirstOrDefault(x =>
                 x.Email != null &&
-                x.Email.ToLower() == email &&
-                x.Password == login.Password
+                x.Email.Trim().ToLower() == email &&
+                x.Password != null &&
+                x.Password.Trim() == password
             );
 
         if (adminUser != null)
@@ -41,30 +42,63 @@ public class AuthController : ControllerBase
                 levelId = 1,
                 parentCompanyId = 0,
                 currentCompanyId = 1,
+
+                roleId = 1,
+                roleName = "Super Admin",
+
+                rights = new
+                {
+                    canView = true,
+                    canAdd = true,
+                    canEdit = true,
+                    canDelete = true
+                },
+
                 companyName = "Admin",
                 fullName = "Admin",
                 data = adminUser
             });
         }
 
-        // 🔹 Client / Site User Login
         var siteUser = _context.CpanlAdminSites
             .FirstOrDefault(x =>
                 x.Email != null &&
-                x.Email.ToLower() == email &&
-                x.Password == login.Password
+                x.Email.Trim().ToLower() == email &&
+                x.Password != null &&
+                x.Password.Trim() == password
             );
 
         if (siteUser != null)
         {
+            var roleName =
+                siteUser.LevelID == 1 ? "Super Admin" :
+                siteUser.LevelID == 2 ? "Client" :
+                siteUser.LevelID == 3 ? "Site Admin" :
+                siteUser.Role ?? "User";
+
+            var roleId =
+                siteUser.LevelID == 1 ? 1 :
+                siteUser.LevelID == 2 ? 2 :
+                siteUser.LevelID == 3 ? 3 : 4;
+
             return Ok(new
             {
-                type = "SiteUser",
+                type = siteUser.LevelID == 1 ? "AdminUser" : "SiteUser",
+
                 levelId = siteUser.LevelID,
                 parentCompanyId = siteUser.ParentCompanyID,
-
-                // ✅ Important: logged-in user's own ID
                 currentCompanyId = siteUser.Level1CompanyID,
+
+                roleId = roleId,
+                roleName = roleName,
+
+                rights = new
+                {
+                    canView = true,
+                    canAdd = siteUser.LevelID != 3,
+                    canEdit = siteUser.LevelID != 3,
+                    canDelete = siteUser.LevelID == 1
+                },
 
                 companyName = siteUser.CompanyName,
                 fullName = siteUser.FullName,
