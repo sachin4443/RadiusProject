@@ -33,4 +33,6 @@ public class AppDbContext : DbContext
 
     public DbSet<Package> Packages { get; set; }
 
+    public DbSet<Subscriber> Subscribers { get; set; }
+
 }
